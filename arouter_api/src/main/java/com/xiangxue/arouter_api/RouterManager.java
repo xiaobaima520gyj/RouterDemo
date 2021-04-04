@@ -99,7 +99,6 @@ public class RouterManager {
     }
 
     // 真正完成跳转
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public Object navigation(Context context, BundleManager bundleManager) {
         // 拼接 ARouter$$Group$$order 才能找到
         // 例如：寻找 ARouter$$Group$$personal
@@ -156,7 +155,9 @@ public class RouterManager {
                         case ACTIVITY:
                             Intent intent = new Intent(context, routerBean.getMyClass()); // 例如：getClazz == Order_MainActivity.class
                             intent.putExtras(bundleManager.getBundle()); // 携带参数
-                            context.startActivity(intent, bundleManager.getBundle());
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                                context.startActivity(intent, bundleManager.getBundle());
+                            }
                             break;
 
                         // 同学们可以自己扩展 类型
